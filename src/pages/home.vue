@@ -16,10 +16,13 @@
 
     <!-- socket -->
 
+
      <div>
     <div id="main-content" class="container">
+          <h1 class='headertop'> Stock Watch</h1>
+          Designed By Zak
       <div class="row">
-        <div class="col-md-6">
+        <!-- <div class="col-md-6">
           <form class="form-inline">
             <div class="form-group">
               <label for="connect">WebSocket connection:</label>
@@ -28,15 +31,16 @@
               </button>
             </div>
           </form>
-        </div>
+        </div> -->
         <div class="col-md-6">
-          <form class="form-inline">
-            <div class="form-group">
+          <div class="search">
+            <!-- <div class="form-group">
               <label for="name">Stock Name</label>
               <input type="text" id="name" class="form-control" v-model="send_message" placeholder="Your name here...">
-            </div>
-            <button id="send" class="btn btn-default" type="submit" @click.prevent="send">Add Stock</button>
-          </form>
+            </div> -->
+            <search ></search>
+            <!-- <button id="send" class="btn btn-default" type="submit" @click.prevent="send">Add Stock</button> -->
+          </div>
         </div>
       </div>
       <div class="row">
@@ -47,11 +51,8 @@
                 <th>Stocks</th>
               </tr>
             </thead>
-            <tbody>
-              <tr v-for="item in received_messages" :key="item">
-                <td>{{ item }}</td>
-              </tr>
-            </tbody>
+           <tableTop :stocks="stocks"></tableTop>
+        
           </table>
         </div>
       </div>
@@ -83,22 +84,30 @@ export default {
       info: "",
       data: [],
       note: null,
-      received_messages: [],
+      stocks: [],
       send_message: null,
-      connected: false
+      connected: false,
+      value: null,
+      stock:{},
     };
   },
   methods: {
 
 
-    send() {
-      //console.log("Send message:" + this.send_message);
-      if (this.stompClient && this.stompClient.connected) {
-        const msg = { name: this.send_message };
-        //console.log(JSON.stringify(msg));
-        this.stompClient.send("/app/hello", JSON.stringify(msg), {});
-      }
-    },
+    // addStock(val) {
+    //   console.log('triggered')
+    //   if(val) return
+    //   this.stocks.map(s =>{
+    //     if(s.symbol === this.value) return
+    //   })
+    // console.log('good')
+    //   //console.log("Send message:" + this.send_message);
+    //   if (this.stompClient && this.stompClient.connected) {
+    //     const msg = this.value;
+    //     //console.log(JSON.stringify(msg));
+    //     this.stompClient.send("/app/hello", msg, {});
+    //   }
+    // },
     connect() {
       this.socket = new SockJS("http://localhost:8081/websocket");
       this.stompClient = Stomp.over(this.socket);
@@ -107,10 +116,9 @@ export default {
         frame => {
           this.connected = true;
           this.stompClient.subscribe("/topic/greetings", tick => {
-            if(this.received_messages.length> 6)
-            this.received_messages = []
-          this.received_messages.push(tick.body) ;
-          console.log("le message: ",this.received_messages);
+           // if(this.stocks.length> 6)
+            this.stocks = []
+          this.stocks=JSON.parse(tick.body);
 
           });
         },
@@ -154,6 +162,15 @@ export default {
 }
 
 .half {
+  height: 100px;
+}
+
+.headertop{
+  font-size: 25pt;
+  font-weight: bolder;
+}
+
+.search{
   height: 100px;
 }
 </style>

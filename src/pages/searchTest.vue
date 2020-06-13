@@ -89,6 +89,7 @@ export default {
       this.value = symbol + "-" + name;
       this.selected = symbol;
       this.stocks = [];
+      this.$emit('input', this.selected)
     },
 
     onChange() {

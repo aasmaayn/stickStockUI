@@ -8,7 +8,7 @@
 <script>
 export default {
   mounted() {
-    this.$router.push('/searchtest')
+    this.$router.push('/home')
   }
 };
 </script>

@@ -16,6 +16,8 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 //compoenents
 import search from "./components/search.vue";
+import stockItem from "./components/stockItem.vue";
+import tableTop from "./components/tableTop.vue";
 
 
 
@@ -33,7 +35,9 @@ Vue.use(Vuetify, {
   iconfont: 'faSvg',
 });
 
-Vue.use('search', search);
+Vue.component('search', search);
+Vue.component('stock', stockItem);
+Vue.component('tableTop', tableTop);
 
 const router = new Router({
   routes // short for `routes: routes`
